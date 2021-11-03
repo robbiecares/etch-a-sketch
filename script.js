@@ -1,8 +1,9 @@
 function myGlobalScope() {
-    let gridSize = 30;
+    let gridSize = 60;
     const bod = document.getElementsByTagName('body')[0];
     const resetBtn = document.getElementById('reset-btn');
     resetBtn.addEventListener('click', reset)
+    drawType = fillBox
 
     function setupPage() {
 
@@ -17,14 +18,13 @@ function myGlobalScope() {
         const controlArea = document.getElementById('control-area')
         controlArea.parentNode.insertBefore(container, controlArea.nextSibling);
         
-        // create grid & attached it to the container
+        // create grid & attach it to the container
         let grid = createGrid(container, gridSize)   
     
         // grid filling functionality
-        grid.forEach((box) => { 
-        box.addEventListener('mouseover', () => {box.classList.add('selected')})
-        })
-        }
+        grid.forEach(box => box.addEventListener('mousemove', drawType))
+    
+    }
     
     function createGrid (container, size) {
         // create a grid layout of 16 boxes
@@ -45,20 +45,24 @@ function myGlobalScope() {
         return document.querySelectorAll('.box')
     }
 
-    function reset() {
+    function fillBox(e) {
+        this.classList.add('selected')
+    }
+
+    function reset(drawType) {
 
         const oldContainer = document.getElementById('container')
 
         // remove the old container
         bod.removeChild(oldContainer)
         
-        setupPage()   
+        setupPage(drawType)   
     }
 
-    setupPage()
+    setupPage(drawType)
     
 }
 
 myGlobalScope()
 
-
+// if mouse button is down & mouse over
