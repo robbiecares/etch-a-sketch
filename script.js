@@ -12,7 +12,6 @@ function myGlobalScope() {
     function setupPage() {
 
         // get desired grid size
-        
         gridSize = determineGridSize()
     
         // create a container div and attach if below the control area
@@ -27,7 +26,7 @@ function myGlobalScope() {
         let grid = createGrid(container, gridSize)   
     
         // grid filling functionality
-        grid.forEach(box => fillBox(box))
+        grid.forEach(box => standardFill(box))
     
     }
     
