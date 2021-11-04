@@ -20,9 +20,9 @@ body {
 }
 
 #control-area {
-    border-bottom: solid 2px black;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #reset-btn {
@@ -32,13 +32,86 @@ body {
 
 }
 
+#content-area {
+    display: flex;
+    justify-content: center;
+    align-content: stretch;
+    flex: 1;
+    padding: 0px 150px 15px;
+}
+
+#eas-frame {
+    display: flex;
+    flex-flow: column;
+    justify-content: stretch;
+    align-items: stretch;
+    flex: 1;
+    padding: 15px;
+    margin: 0px 200px;
+    background-color: rgb(182, 10, 10);
+    color: goldenrod;
+    text-shadow: -3px -1px gold;
+    text-align: center;
+    font-size: 56px;
+    font-family: cursive;
+    border: 25px outset rgb(182, 10, 10);
+    /* outline: 12px outset red; */
+    border-radius: 25px;
+    /* outline-offset: -600px; */
+    /* box-shadow: 15px 15px 8px 1px inset red, */
+                /* 1px 1px 1px 1px black; */
+}
+
+#eas-title-div {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    
+}
+#eas-body {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    flex: 1;
+    padding: 0 100px;
+}
+
+#eas-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+#left-knob-div, #right-knob-div {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+
+    
+}
+
+#left-knob, #right-knob {
+    background-color: white;
+    border-radius: 100%;
+    /* border: solid 1px black; */
+    width: 100px;
+    height: 100px;
+    box-shadow: inset -5px -5px 0px 1px lightgray;
+}
+
 #container {
     display: flex;
     flex-flow: column;
-    flex: 1;
+    flex: 5;
     justify-content: stretch;
     align-items: space-evenly;
     height: 100%;
+    background-color: lightgray;
+    border-radius: 25px;
+    border: 8px inset red;
+    box-shadow: inset 1px 1px 10px 0px black;
+    border-radius: 25px;
+    outline-offset: 25px;
+    
 }
 
 .row {
@@ -56,7 +129,7 @@ body {
 }
 
 .selected {
-    background-color: green;
+    background-color: darkgray;
 }
 
 .link {
@@ -69,6 +142,7 @@ footer {
     background-color: grey;
     text-align: center;
     padding: 4px;
+
 }
 
 

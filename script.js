@@ -1,27 +1,26 @@
 function myGlobalScope() {
 
-    const bod = document.getElementsByTagName('body')[0];
+    const easBody = document.getElementById('eas-body')
     const resetBtn = document.getElementById('reset-btn');
     let mouseDown = 0
     const defaultGridSize = 60;
     const maxGridSize = 150;
-    let gridSize = defaultGridSize
+    let gridSize = maxGridSize
     let drawType = standardFill
     
     
     function setupPage() {
 
         // get desired grid size
-        gridSize = determineGridSize()
+        // gridSize = determineGridSize()
     
         // create a container div and attach if below the control area
         let container = document.createElement('div');
         container.id = 'container'
-
-        // insert the container element below the control area
-        const controlArea = document.getElementById('control-area')
-        controlArea.parentNode.insertBefore(container, controlArea.nextSibling);
         
+        // insert the container element into the Etch-a-Sketch frame
+        easBody.appendChild(container)
+
         // create grid & attach it to the container
         let grid = createGrid(container, gridSize)   
     
@@ -81,14 +80,13 @@ function myGlobalScope() {
         const oldContainer = document.getElementById('container')
 
         // remove the old container
-        bod.removeChild(oldContainer)
+        easBody.removeChild(oldContainer)
         
         setupPage(drawType)   
     }
     
     // setup listeners
     resetBtn.addEventListener('click', reset)
-
     
     // identify if mouse button is up or down    
     window.addEventListener('mousedown', () => {
@@ -98,7 +96,6 @@ function myGlobalScope() {
         --mouseDown
         });
 
-    
     setupPage(drawType)
 
 }
