@@ -1,19 +1,24 @@
 function myGlobalScope() {
-    let gridSize = 60;
+
     const bod = document.getElementsByTagName('body')[0];
     const resetBtn = document.getElementById('reset-btn');
-    resetBtn.addEventListener('click', reset)
-    drawType = fillBox
-
+    let mouseDown = 0
+    const defaultGridSize = 60;
+    const maxGridSize = 150;
+    let gridSize = defaultGridSize
+    let drawType = standardFill
+    
+    
     function setupPage() {
 
         // get desired grid size
-        gridSize = prompt('Gridsize:', gridSize || 30)
+        
+        gridSize = determineGridSize()
     
         // create a container div and attach if below the control area
         let container = document.createElement('div');
         container.id = 'container'
-    
+
         // insert the container element below the control area
         const controlArea = document.getElementById('control-area')
         controlArea.parentNode.insertBefore(container, controlArea.nextSibling);
@@ -22,10 +27,23 @@ function myGlobalScope() {
         let grid = createGrid(container, gridSize)   
     
         // grid filling functionality
-        grid.forEach(box => box.addEventListener('mousemove', drawType))
+        grid.forEach(box => fillBox(box))
     
     }
     
+    function determineGridSize() {
+        // validate the requested gridsize
+        let adjustedGridSize
+        
+        requestedGridSize = prompt('Gridsize (2 - 150):', gridSize || defaultGridSize)
+        if (requestedGridSize < 2) {
+            adjustedGridSize = 2
+        } else if (requestedGridSize > maxGridSize) {
+            adjustedGridSize = gridSize
+        }
+        return adjustedGridSize || requestedGridSize
+    }
+
     function createGrid (container, size) {
         // create a grid layout of 16 boxes
 
@@ -45,8 +63,18 @@ function myGlobalScope() {
         return document.querySelectorAll('.box')
     }
 
-    function fillBox(e) {
-        this.classList.add('selected')
+    function standardFill(box) {
+        box.addEventListener('mouseover', () => {
+            if (mouseDown) {
+                box.classList.add('selected')
+            }
+        })
+    }
+
+    function psychedelicFill() {
+        if (mouseDown) {
+            // box.classList.add('selected')
+        }
     }
 
     function reset(drawType) {
@@ -58,11 +86,23 @@ function myGlobalScope() {
         
         setupPage(drawType)   
     }
-
-    setupPage(drawType)
     
+    // setup listeners
+    resetBtn.addEventListener('click', reset)
+
+    
+    // identify if mouse button is up or down    
+    window.addEventListener('mousedown', () => {
+        ++mouseDown
+        });
+    window.addEventListener('mouseup', () => {
+        --mouseDown
+        });
+
+    
+    setupPage(drawType)
+
 }
 
 myGlobalScope()
 
-// if mouse button is down & mouse over
