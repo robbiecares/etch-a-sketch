@@ -1,104 +1,118 @@
-function myGlobalScope() {
+const easBody = document.getElementById('eas-body')
+const resetBtn = document.getElementById('reset-btn')
+const radioBtn = document.getElementsByName('fill-type')
+let pixelArea = document.createElement('div')
+let mouseDown = false
+const defaultGridSize = 60;
+const maxGridSize = 100;
+let gridSize = maxGridSize
 
-    const easBody = document.getElementById('eas-body')
-    const resetBtn = document.getElementById('reset-btn');
-    let mouseDown = 0
-    const defaultGridSize = 60;
-    const maxGridSize = 150;
-    let gridSize = maxGridSize
-    let drawType = standardFill
-    
-    
-    function setupPage() {
+// nodelist of all pixels
+let grid
 
-        // get desired grid size
-        // gridSize = determineGridSize()
-    
-        // create a container div and attach if below the control area
-        let container = document.createElement('div');
-        container.id = 'container'
-        
-        // insert the container element into the Etch-a-Sketch frame
-        easBody.appendChild(container)
+// set the initial fill mode for a pixel
+let fillMode = 'standard-fill'
 
-        // create grid & attach it to the container
-        let grid = createGrid(container, gridSize)   
-    
-        // grid filling functionality
-        grid.forEach(box => standardFill(box))
-    
-    }
-    
-    function determineGridSize() {
-        // validate the requested gridsize
-        let adjustedGridSize
-        
-        requestedGridSize = prompt('Gridsize (2 - 150):', gridSize || defaultGridSize)
-        if (requestedGridSize < 2) {
-            adjustedGridSize = 2
-        } else if (requestedGridSize > maxGridSize) {
-            adjustedGridSize = gridSize
-        }
-        return adjustedGridSize || requestedGridSize
-    }
+// setup listeners
+resetBtn.addEventListener('click', resetPixelArea)
 
-    function createGrid (container, size) {
-        // create a grid layout of 16 boxes
+// sets the status of the mouse button as up or down (used to fill pixels)
+pixelArea.addEventListener('mousedown', () => {
+    mouseDown = true
+    // console.log(mouseDown)
+    });
+pixelArea.addEventListener('mouseup', () => {
+    mouseDown = false
+    // console.log(mouseDown)
+    });
 
-        // create four rows
-        for (i = 1; i <= size; i++) {
-            let row = document.createElement('div');
-            row.className = 'row'
-            container.appendChild(row)
-
-            // create four boxes for the row
-            for (j = 1; j <= size; j++) { 
-                let box = document.createElement('div');
-                box.className = 'box'
-                row.appendChild(box)
-            }   
-        }
-        return document.querySelectorAll('.box')
-    }
-
-    function standardFill(box) {
-        box.addEventListener('mouseover', () => {
-            if (mouseDown) {
-                box.classList.add('selected')
-            }
+// updates the desired fill mode
+radioBtn.forEach(option => 
+    option.addEventListener('click', () => {
+        fillMode = option.value
+        // console.log(fillMode)
         })
-    }
+    )
 
-    function psychedelicFill() {
-        if (mouseDown) {
-            // box.classList.add('selected')
-        }
-    }
+function setupPage() {
 
-    function reset(drawType) {
-
-        const oldContainer = document.getElementById('container')
-
-        // remove the old container
-        easBody.removeChild(oldContainer)
-        
-        setupPage(drawType)   
-    }
+    // get desired grid size
+    // gridSize = determineGridSize()
     
-    // setup listeners
-    resetBtn.addEventListener('click', reset)
-    
-    // identify if mouse button is up or down    
-    window.addEventListener('mousedown', () => {
-        ++mouseDown
-        });
-    window.addEventListener('mouseup', () => {
-        --mouseDown
-        });
+    // inserts the pixel area into the Etch-a-Sketch frame
+    pixelArea.id = 'pixel-area'
+    easBody.appendChild(pixelArea)
 
-    setupPage(drawType)
+    // creates a grid of pixels & attachs it to the pixel area
+    grid = createGrid(gridSize)   
 
+    // set grid filling functionality
+    grid.forEach(pixel => pixel.addEventListener('mouseover', fillSelected))
 }
 
-myGlobalScope()
+function determineGridSize() {
+    // validate the requested gridsize
+    let adjustedGridSize
+    
+    requestedGridSize = prompt('Gridsize (2 - 100):', gridSize || defaultGridSize)
+    if (requestedGridSize < 2) {
+        adjustedGridSize = 2
+    } else if (requestedGridSize > maxGridSize) {
+        adjustedGridSize = gridSize
+    }
+    return adjustedGridSize || requestedGridSize
+}
 
+function createGrid (size) {
+    // create a grid of pixels
+
+    // create rows
+    for (i = 1; i <= size; i++) {
+        let row = document.createElement('div');
+        row.classList.add('row')
+        pixelArea.appendChild(row)
+
+        // add pixels to row
+        for (j = 1; j <= size; j++) { 
+            let pixel = document.createElement('div');
+            pixel.classList.add('pixel')
+            row.appendChild(pixel)
+        }   
+    }
+    return document.querySelectorAll('.pixel')
+}
+
+function fillSelected() { 
+    if (mouseDown) {
+        this.classList.add(fillMode)}
+}
+
+function resetPixelArea() {
+
+    pixelArea.textContent = ''
+    
+    setupPage()   
+}
+
+
+setupPage()
+
+
+
+/*
+if QWSA pressed in order move one pixel to the left
+
+if QASW pressed in order move one pixel to the right
+
+
+
+register any letter in group QWSA being pressed,
+    map values to letter (e.g. if letter is Q: Q = 0, W = 1, A = -1)    
+    let letter = 0
+
+
+register the next letter pressed
+    if next letter = 
+    
+    if next letter is clockwise letter move one pixel left
+*/

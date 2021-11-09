@@ -9,21 +9,41 @@
 </head>
 <body ondragstart='return false;' ondrop='return false;'>
     <div id='control-area'>
-        <button id='reset-btn'>Reset</button>
+        <div></div>
+        <div id='reset-btn-div'>
+            <button id='reset-btn'>Reset</button>  
+        </div> 
+        <div id='fill-type-div'>
+            <div>
+                <div>Mode:</div>
+            </div>
+            <div>
+                <input type="radio" id="standard" name="fill-type" value="standard-fill" checked='checked'>
+                <label for="standard">Standard</label>
+            </div>
+            <div>
+                <input type="radio" id="psychedelic" name="fill-type" value="psychedelic-fill">
+                <label for="psychedelic">Psychedelic</label> 
+            </div>
+            <div>
+                <input type="radio" id="greyscale" name="fill-type" value="greyscale-fill">
+                <label for="psychedelic">Greyscale</label> 
+            </div>
+        </div>   
     </div>
     <div id='content-area'>
-            <div id='eas-frame'>
-                <div id='eas-title-div'>
-                    <div id='eas-title'>Etch-A-Sketch</div>
-                </div>
-                <div id='eas-body'>
-                    <!-- container goes here -->
-                </div>
-                <div id='eas-controls'>
-                    <div id='left-knob-div'><div id='left-knob'></div></div>
-                    <div id='right-knob-div'><div id='right-knob'></div></div>
-                </div>
+        <div id='eas-frame'>
+            <div id='eas-title-div'>
+                <div id='eas-title'>Etch-A-Sketch</div>
             </div>
+            <div id='eas-body'>
+                <!-- pixel area goes here -->
+            </div>
+            <div id='eas-controls'>
+                <div id='left-knob-div'><div id='left-knob'></div></div>
+                <div id='right-knob-div'><div id='right-knob'></div></div>
+            </div>
+        </div>
     </div>
     <footer><a class='link' href='https://github.com/robbiecares/etch-a-sketch/' target="_blank">source</a></footer>
     <script src='script.js'></script>
