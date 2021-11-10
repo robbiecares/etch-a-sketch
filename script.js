@@ -1,12 +1,10 @@
 // set global variables
 const easBody = document.getElementById('eas-body')
+const gridSizeSelector = document.getElementById('grid-size')
 const resetBtn = document.getElementById('reset-btn')
-const radioBtn = document.getElementsByName('fill-mode')
+const fillModeSelector = document.getElementsByName('fill-mode')
 let pixelArea = document.createElement('div')
 let mouseDown = false
-const defaultGridSize = 60;
-const maxGridSize = 10;
-let gridSize = maxGridSize
 
 // nodelist of all pixels
 let grid
@@ -36,7 +34,7 @@ pixelArea.addEventListener('mouseup', () => {
 pixelArea.addEventListener('mouseleave', () => {mouseDown = false})
 
 // updates the desired fill mode
-radioBtn.forEach(option => 
+fillModeSelector.forEach(option => 
     option.addEventListener('click', () => {
         fillMode = option.value
         // console.log(fillMode)
@@ -53,26 +51,12 @@ function setupPage() {
     easBody.appendChild(pixelArea)
 
     // creates a grid of pixels & attachs it to the pixel area
-    grid = createGrid(gridSize)   
+    grid = createGrid(gridSizeSelector.value)   
 
     // set listeners for pixel fill behavoir
     grid.forEach(pixel => pixel.addEventListener('mousedown', downFill))
     grid.forEach(pixel => pixel.addEventListener('mouseenter', entryFill))
-    // grid.forEach(pixel => pixel.addEventListener('click', clickFill))
     
-}
-
-function determineGridSize() {
-    // validate the requested gridsize
-    let adjustedGridSize
-    
-    requestedGridSize = prompt('Gridsize (2 - 100):', gridSize || defaultGridSize)
-    if (requestedGridSize < 2) {
-        adjustedGridSize = 2
-    } else if (requestedGridSize > maxGridSize) {
-        adjustedGridSize = gridSize
-    }
-    return adjustedGridSize || requestedGridSize
 }
 
 function createGrid (size) {
@@ -128,22 +112,6 @@ function entryFill() {
     }
 }
 
-function clickFill() {
-    // sets pixel fill behavoir on mouse click
-    switch (fillMode) {
-        case 'standard-fill':
-            this.style.backgroundColor = 'grey'
-            break;
-        case 'psychedelic-fill':
-            this.style.backgroundColor = psychedelicFill()
-            break;
-        case 'greyscale-fill':
-            this.style.backgroundColor = greyscaleFill(this)
-            break;
-
-    }
-}
-
 function getPsychedelicColor() {
     // return a random color from the psychedelic pallet
     return psychedelicColors[Math.floor(Math.random() * psychedelicColors.length)]
@@ -155,21 +123,23 @@ function greyscaleFill(pixel) {
 
     const currentBgColor = pixel.style.backgroundColor
     
-    // extracts array of currentBgColor's rgb values
-    let rgbComponenets = currentBgColor.substring(4, currentBgColor.length-1).replace(/ /g, '').split(',');
-    for (i = 0; i < rgbComponenets.length; i++) {
-        rgbComponenets[i] = Number(rgbComponenets[i])
+    // converts a color from rgb to hex
+    if (currentBgColor) {
+        // creates an array of currentBgColor's rgb values
+        const rgbValues = currentBgColor.substring(4, currentBgColor.length-1).replace(/ /g, '').split(',');
+        for (i = 0; i < rgbValues.length; i++) {
+            rgbValues[i] = Number(rgbValues[i])
+        }
+        // converts rgb values to hex
+        const currentBgColorHex = ConvertRGBtoHex(rgbValues[0], rgbValues[1], rgbValues[2])
     }
 
-    // converts currentBgColor from rgb to hex
-    const currentBgColorHex = ConvertRGBtoHex(rgbComponenets[0], rgbComponenets[1], rgbComponenets[2])
-    
     // if pixel is already black, do not change the color
-    if (currentBgColor == 'black')
+    if (currentBgColor == 'black') {
         bgColor = 'black'
 
     // sets the pixel color to white if pixel is unfilled or has been filled by another fill method
-    else if (!currentBgColor || psychedelicColors.includes(currentBgColorHex) || currentBgColor == 'grey') {
+    } else if (!currentBgColor || psychedelicColors.includes(currentBgColorHex) || currentBgColor == 'grey') {
         bgColor = 'rgb(255, 255, 255)'
         
     // makes then pixel 10% darker than it's current shade (starting from white, ending with black)

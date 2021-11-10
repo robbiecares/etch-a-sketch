@@ -30,8 +30,18 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
+#grid-size-div {
+    justify-content: flex-end;
+    gap: 3%;
+}
+
+#grid-size {
+    width: 4em;
+}
+  
 #reset-btn {
     margin: 15px;
     padding: .5%;

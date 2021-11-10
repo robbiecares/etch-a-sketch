@@ -9,7 +9,10 @@
 </head>
 <body ondragstart='return false;' ondrop='return false;'>
     <div id='control-area'>
-        <div></div>
+        <div id='grid-size-div'>
+            <label for='grid-size'>Grid Size:</label>
+            <input type="number" id="grid-size" name="grid-size" min="2" max="100" value="30">
+        </div>
         <div id='reset-btn-div'>
             <button id='reset-btn'>Reset</button>  
         </div> 
@@ -25,10 +28,10 @@
                 <input type="radio" id="psychedelic" name="fill-mode" value="psychedelic-fill">
                 <label for="psychedelic">Psychedelic</label> 
             </div>
-            <div>
+            <!-- <div>
                 <input type="radio" id="greyscale" name="fill-mode" value="greyscale-fill">
                 <label for="psychedelic">Greyscale</label> 
-            </div>
+            </div> -->
         </div>   
     </div>
     <div id='content-area'>
