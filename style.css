@@ -139,14 +139,6 @@ body {
     box-shadow: inset -5px -5px 0px 1px lightgray;
 }
 
-.standard-fill {
-    background-color: grey;
-}
-
-.psychedelic-fill {
-    background-color: green;
-}
-
 .link {
     text-decoration: none;
     color: white;    
@@ -158,9 +150,5 @@ footer {
     text-align: center;
     padding: 4px;
 
-}
-
-#active-pixel {
-    background-color: black;
 }
 
