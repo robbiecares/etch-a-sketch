@@ -95,7 +95,7 @@ function downFill() {
     // sets pixel fill behavoir when the mouse button is pushed down
     switch (fillMode) {
         case 'standard-fill':
-            this.style.backgroundColor = 'grey'
+            this.style.backgroundColor = '#808080'
             break;
         case 'psychedelic-fill':
             this.style.backgroundColor = psychedelicColor
@@ -112,7 +112,7 @@ function entryFill() {
     if (mouseDown) {
         switch (fillMode) {
             case 'standard-fill':
-                this.style.backgroundColor = 'grey'
+                this.style.backgroundColor = '#808080'
                 break;
             case 'psychedelic-fill':
                 this.style.backgroundColor = psychedelicColor
@@ -132,43 +132,54 @@ function getPsychedelicColor() {
 function greyscaleFill(pixel) {
     // sets a pixel's color on an ascending scale from white to black
 
-    const currentBgColor = pixel.style.backgroundColor
-    let rgbValues;
-    let currentBgColorHex;
-    
-    // converts a color from rgb to hex
-    if (currentBgColor) {
-        // creates an array of currentBgColor's rgb values
-        rgbValues = currentBgColor.substring(4, currentBgColor.length-1).replace(/ /g, '').split(',');
-        for (i = 0; i < rgbValues.length; i++) {
-            rgbValues[i] = Number(rgbValues[i])
-        }
-        // converts rgb values to hex
-        currentBgColorHex = convertRGBToHex(rgbValues[0], rgbValues[1], rgbValues[2]);
-    }
+    let currentBgColorRGB
+    let currentBgColorHex
+    let rgbValues
+    let newBgColor
 
-    // if pixel is already black, do not change the color
-    if (currentBgColor == 'black') {
-        bgColor = 'black'
-
-    // sets the pixel color to white if pixel is unfilled or has been filled by another fill method
-    } else if (!currentBgColor || psychedelicColors.includes(currentBgColorHex) || currentBgColor == 'grey') {
-        bgColor = 'rgb(255, 255, 255)'
-        
-    // makes then pixel 10% darker than it's current shade (starting from white, ending with black)
+    // sets pixel to white if the pixel has not yet been filled
+    if (!pixel.style.backgroundColor) {
+        newBgColor = 'rgb(255, 255, 255)'
+    // sets pixel to black if it's already black
+    } else if (pixel.style.backgroundColor === 'rgb(0, 0, 0)') {
+        newBgColor = pixel.style.backgroundColor
+    // sets the Hex and RGB variables if the current BG color is in RGB format
+    } else if (pixel.style.backgroundColor[0] != '#') {
+        currentBgColorRGB = pixel.style.backgroundColor
+        rgbValues = stripRGBValues(currentBgColorRGB)
+        currentBgColorHex = convertRGBToHex(rgbValues)
     } else {
-        // subtract 26 (i.e. 10%) from each RGB component in currentBgColor
-        for (i = 0; i < rgbValues.length; i++) {
-            rgbValues[i] -= 26
-            }
-        bgColor = `rgb(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]})`
+        currentBgColorHex = pixel.style.backgroundColor
     }
 
-    return bgColor
+    if (!newBgColor) {
+        // sets the pixel color to white if pixel has already been filled by another fill method
+        if (psychedelicColors.includes(currentBgColorHex) || currentBgColorHex == '#808080') {
+            newBgColor = 'rgb(255, 255, 255)'
+        // makes then pixel 10% darker than it's current shade (starting from white, ending with black)
+        } else {
+            // subtract 26 (i.e. 10%) from each RGB component in currentBgColor
+            for (i = 0; i < rgbValues.length; i++) {
+                rgbValues[i] -= 26
+                }
+            newBgColor = `rgb(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]})`
+        }
+    }
+
+    return newBgColor
 }
 
-function convertRGBToHex(red, green, blue) {
-    return "#" + colorToHex(red) + colorToHex(green) + colorToHex(blue);
+function stripRGBValues(string) {
+    // returns int values of an RGB string
+    rgbValues = string.substring(4, string.length-1).replace(/ /g, '').split(',');
+    for (i = 0; i < rgbValues.length; i++) {
+        rgbValues[i] = Number(rgbValues[i])
+    }
+    return rgbValues
+}
+
+function convertRGBToHex(array) {
+    return "#" + colorToHex(array[0]) + colorToHex(array[1]) + colorToHex(array[2]);
     
 }
 
