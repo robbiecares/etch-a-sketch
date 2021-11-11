@@ -10,10 +10,13 @@
 <body ondragstart='return false;' ondrop='return false;'>
     <div id='control-area'>
         <div id='grid-size-div'>
-            <label for='grid-size'>Grid&nbspSize:</label>
-            <input type="number" id="grid-size" name="grid-size" min="2" max="100" value="64">
-            <button id='reset-btn' name='grid-size'>Reset</button>  
-        </div>
+            <form name="grid-size">
+                <label for='grid-size'>Gridsize:</label>
+                <input type="number" id="grid-size" name="grid-size" min="2" max="100" required="required">
+                <span class="validity"></span>
+                <input type="submit" id='reset-btn' name='grid-size' value='Reset'>
+            </form>
+            </div>
         <div id='fill-type-div'>
             <div>
                 <div>Mode:</div>
@@ -28,7 +31,7 @@
             </div>
             <div>
                 <input type="radio" id="greyscale" name="fill-mode" value="greyscale-fill">
-                <label for="psychedelic">Greyscale</label> 
+                <label for="psychedelic">Greyscale</label>
             </div>
         </div>   
     </div>

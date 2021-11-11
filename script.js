@@ -1,25 +1,42 @@
 // set global variables
 const easBody = document.getElementById('eas-body')
-const gridSizeSelector = document.getElementById('grid-size')
-const resetBtn = document.getElementById('reset-btn')
-const fillModeSelector = document.getElementsByName('fill-mode')
-let pixelArea = document.createElement('div')
-let mouseDown = false
+const pixelArea = document.createElement('div')
+pixelArea.id = 'pixel-area'
 
 // nodelist of all pixels
 let grid
 
+// set initial gridsize
+const gridsizeSelector = document.getElementById('grid-size')
+let gridsize = 64
+gridsizeSelector.value = gridsize
+const resetBtn = document.getElementById('reset-btn')
+
+// const gridForm = document.getElementsByTagName('form');
+gridsizeSelector.value
+
 // set initial fill mode for a pixel
+const fillModeSelector = document.getElementsByName('fill-mode')
 let fillMode = document.querySelector('input[name="fill-mode"]:checked')
 fillMode = fillMode.value
- 
+
+// setup listeners
+resetBtn.addEventListener('click', validateGridsizeForm)
+
+function validateGridsizeForm(event) {
+    // prevents invalide updates to the gridsize
+    event.preventDefault();
+    if (gridsizeSelector.validity.valid) {
+        gridsize = gridsizeSelector.value
+        resetPixelArea()
+    }
+}
+
+// variables to assist with a pixel's 'dragFill()' behavoir
+let mouseDown = false 
 const psychedelicColors = ['#ffb400', '#ff9500', '#5fbeff', '#ff1daa', '#6bd13e']
 let psychedelicColor = getPsychedelicColor()
 
-// setup listeners
-resetBtn.addEventListener('click', resetPixelArea)
-
-// updates variables to assist with the pixel 'dragFill()' behavoir
 pixelArea.addEventListener('mousedown', () => {
     mouseDown = true
     // console.log(mouseDown)
@@ -42,16 +59,12 @@ fillModeSelector.forEach(option =>
     )
 
 function setupPage() {
-
-    // get desired grid size
-    // gridSize = determineGridSize()
-    
     // inserts the pixel area into the Etch-a-Sketch frame
-    pixelArea.id = 'pixel-area'
+    
     easBody.appendChild(pixelArea)
 
     // creates a grid of pixels & attachs it to the pixel area
-    grid = createGrid(gridSizeSelector.value)   
+    grid = createGrid(gridsize)   
 
     // set listeners for pixel fill behavoir
     grid.forEach(pixel => pixel.addEventListener('mousedown', downFill))
@@ -90,9 +103,7 @@ function downFill() {
         case 'greyscale-fill':
             this.style.backgroundColor = greyscaleFill(this)
             break;
-    
-    // if (mouseDown && fillMode == 'greyscale-fill') {
-    //     this.style.backgroundColor = greyscaleFill(this)}
+
     }   
 }
 
@@ -167,9 +178,7 @@ function colorToHex(color) {
 }
   
 function resetPixelArea() {
-
     pixelArea.textContent = ''
-    
     setupPage()   
 }
 

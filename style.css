@@ -47,6 +47,17 @@ body {
     width: 4em;
 }
 
+
+#grid-size:invalid+span:after {
+    content: '✖';
+    padding-left: 5px;
+}
+  
+#grid-size:valid+span:after {
+    content: '✓';
+    padding-left: 5px;
+}
+
 #content-area {
     display: flex;
     justify-content: center;
