@@ -122,16 +122,18 @@ function greyscaleFill(pixel) {
     // sets a pixel's color on an ascending scale from white to black
 
     const currentBgColor = pixel.style.backgroundColor
+    let rgbValues;
+    let currentBgColorHex;
     
     // converts a color from rgb to hex
     if (currentBgColor) {
         // creates an array of currentBgColor's rgb values
-        const rgbValues = currentBgColor.substring(4, currentBgColor.length-1).replace(/ /g, '').split(',');
+        rgbValues = currentBgColor.substring(4, currentBgColor.length-1).replace(/ /g, '').split(',');
         for (i = 0; i < rgbValues.length; i++) {
             rgbValues[i] = Number(rgbValues[i])
         }
         // converts rgb values to hex
-        const currentBgColorHex = ConvertRGBtoHex(rgbValues[0], rgbValues[1], rgbValues[2])
+        currentBgColorHex = convertRGBToHex(rgbValues[0], rgbValues[1], rgbValues[2]);
     }
 
     // if pixel is already black, do not change the color
@@ -145,20 +147,21 @@ function greyscaleFill(pixel) {
     // makes then pixel 10% darker than it's current shade (starting from white, ending with black)
     } else {
         // subtract 26 (i.e. 10%) from each RGB component in currentBgColor
-        for (i = 0; i < rgbComponenets.length; i++) {
-            rgbComponenets[i] -= 26
+        for (i = 0; i < rgbValues.length; i++) {
+            rgbValues[i] -= 26
             }
-        bgColor = `rgb(${rgbComponenets[0]}, ${rgbComponenets[1]}, ${rgbComponenets[2]})`
+        bgColor = `rgb(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]})`
     }
 
     return bgColor
 }
 
-function ConvertRGBtoHex(red, green, blue) {
-    return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
+function convertRGBToHex(red, green, blue) {
+    return "#" + colorToHex(red) + colorToHex(green) + colorToHex(blue);
+    
 }
 
-function ColorToHex(color) {
+function colorToHex(color) {
     var hexadecimal = color.toString(16);
     return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
 }
