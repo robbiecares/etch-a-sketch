@@ -1,2 +1,2 @@
 # etch-a-sketch
-TOP's etch-a-sketch project
+[TOP's](https://www.theodinproject.com/) etch-a-sketch project
